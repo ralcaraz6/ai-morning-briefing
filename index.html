@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📰 AI Morning Briefing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="container flex items-center justify-between">
+                <div class="flex items-center gap-16">
+                    <h1 class="logo">📰 AI Morning Briefing</h1>
+                </div>
+                <div class="flex items-center gap-8">
+                    <span class="status status--success" id="systemStatus">Sistema Activo</span>
+                    <button class="btn btn--primary" id="generateNewsletter">Generar Newsletter</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="app-nav">
+            <div class="container">
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+                    <button class="nav-tab" data-tab="profile">Perfil</button>
+                    <button class="nav-tab" data-tab="sources">Fuentes RSS</button>
+                    <button class="nav-tab" data-tab="news">Noticias Filtradas</button>
+                    <button class="nav-tab" data-tab="newsletter">Newsletter</button>
+                    <button class="nav-tab" data-tab="recipients">Recipients</button>
+                    <button class="nav-tab" data-tab="settings">Configuración</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="container">
+                
+                <!-- Dashboard Tab -->
+                <section id="dashboard" class="tab-content active">
+                    <div class="dashboard-header">
+                        <h2>Dashboard Principal</h2>
+                        <p class="text-secondary">Resumen del sistema AI Morning Briefing</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalSources">6</div>
+                            <div class="stat-label">Fuentes RSS</div>
+                            <div class="stat-sublabel"><span id="activeSources">4</span> activas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="newsProcessed">156</div>
+                            <div class="stat-label">Noticias Procesadas</div>
+                            <div class="stat-sublabel">Última semana</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number"><span id="averageRelevance">73</span>%</div>
+                            <div class="stat-label">Relevancia Promedio</div>
+                            <div class="stat-sublabel">Filtrado IA</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="newslettersSent">12</div>
+                            <div class="stat-label">Newsletters Enviados</div>
+                            <div class="stat-sublabel">Este mes</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Últimas Noticias Relevantes</h3>
+                                <div id="latestNewsPreview" class="news-preview"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Estado del Sistema</h3>
+                                <div class="system-status">
+                                    <div class="status-item">
+                                        <span class="status status--success">RSS</span>
+                                        <span>Fuentes conectadas</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status status--success">IA</span>
+                                        <span>Filtrado activo</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status status--success">Newsletter</span>
+                                        <span>Programado diario 07:00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Profile Tab -->
+                <section id="profile" class="tab-content">
+                    <div class="section-header">
+                        <h2>Configuración de Perfil</h2>
+                        <p class="text-secondary">Personaliza el filtrado de noticias según tus intereses</p>
+                    </div>
+
+                    <div class="profile-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Información Personal</h3>
+                                <form id="profileForm" class="profile-form">
+                                    <div class="form-group">
+                                        <label class="form-label">Edad</label>
+                                        <input type="number" class="form-control" id="age" value="28">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Ubicación</label>
+                                        <input type="text" class="form-control" id="location" value="Barcelona">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Trabajo</label>
+                                        <input type="text" class="form-control" id="job" value="Analista de datos">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Empresa</label>
+                                        <input type="text" class="form-control" id="company" value="Empresa tecnológica alemana">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Intereses</h3>
+                                <div class="interests-section">
+                                    <h4>Me interesa:</h4>
+                                    <div id="interests" class="interests-tags"></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="newInterest" placeholder="Añadir nuevo interés">
+                                        <button type="button" class="btn btn--secondary btn--sm" id="addInterest">Añadir</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="interests-section">
+                                    <h4>NO me interesa:</h4>
+                                    <div id="notInterested" class="interests-tags not-interested"></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="newNotInterest" placeholder="Añadir exclusión">
+                                        <button type="button" class="btn btn--secondary btn--sm" id="addNotInterest">Añadir</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn--primary" id="saveProfile">Guardar Perfil</button>
+                    </div>
+                </section>
+
+                <!-- RSS Sources Tab -->
+                <section id="sources" class="tab-content">
+                    <div class="section-header">
+                        <h2>Gestión de Fuentes RSS</h2>
+                        <p class="text-secondary">Configura las fuentes de noticias para tu briefing</p>
+                    </div>
+
+                    <div class="sources-controls">
+                        <button class="btn btn--primary" id="addSourceBtn">+ Añadir Fuente</button>
+                    </div>
+
+                    <div class="sources-grid" id="sourcesList"></div>
+
+                    <!-- Add Source Modal -->
+                    <div id="addSourceModal" class="modal hidden">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Añadir Nueva Fuente RSS</h3>
+                                <button class="modal-close" id="closeModal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addSourceForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="sourceName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">URL RSS</label>
+                                        <input type="url" class="form-control" id="sourceUrl" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Categoría</label>
+                                        <select class="form-control" id="sourceCategory">
+                                            <option value="General">General</option>
+                                            <option value="Economía">Economía</option>
+                                            <option value="Tecnología">Tecnología</option>
+                                            <option value="Internacional">Internacional</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn--secondary" id="cancelAdd">Cancelar</button>
+                                <button class="btn btn--primary" id="confirmAdd">Añadir Fuente</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- News Tab -->
+                <section id="news" class="tab-content">
+                    <div class="section-header">
+                        <h2>Noticias Filtradas por IA</h2>
+                        <p class="text-secondary">Noticias relevantes según tu perfil y preferencias</p>
+                    </div>
+
+                    <div class="news-filters">
+                        <select class="form-control filter-select" id="categoryFilter">
+                            <option value="">Todas las categorías</option>
+                            <option value="Tecnología">Tecnología</option>
+                            <option value="Economía">Economía</option>
+                            <option value="Laboral">Laboral</option>
+                            <option value="Tecnología Local">Tecnología Local</option>
+                        </select>
+                        
+                        <select class="form-control filter-select" id="relevanceFilter">
+                            <option value="">Todas las relevancia</option>
+                            <option value="90">90%+ relevancia</option>
+                            <option value="70">70%+ relevancia</option>
+                            <option value="50">50%+ relevancia</option>
+                        </select>
+                    </div>
+
+                    <div id="newsList" class="news-list"></div>
+                </section>
+
+                <!-- Newsletter Tab -->
+                <section id="newsletter" class="tab-content">
+                    <div class="section-header">
+                        <h2>Newsletter Preview</h2>
+                        <p class="text-secondary">Vista previa de tu newsletter personalizado</p>
+                    </div>
+
+                    <div class="newsletter-actions">
+                        <button class="btn btn--primary" id="refreshNewsletter">Actualizar Preview</button>
+                        <button class="btn btn--secondary" id="sendTestNewsletter">Enviar Newsletter de Prueba</button>
+                    </div>
+
+                    <div class="newsletter-preview">
+                        <div class="newsletter-content" id="newsletterContent">
+                            <!-- Newsletter content will be generated here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recipients Tab -->
+                <section id="recipients" class="tab-content">
+                    <div class="section-header">
+                        <h2>Newsletter Recipients</h2>
+                        <p class="text-secondary">Manage the list of emails that will receive the daily newsletter</p>
+                    </div>
+                    <div class="recipients-controls">
+                        <input type="email" class="form-control" id="newRecipientEmail" placeholder="Add email address">
+                        <button class="btn btn--primary" id="addRecipientBtn">Add</button>
+                    </div>
+                    <div class="recipients-list" id="recipientsList"></div>
+                </section>
+
+                <!-- Settings Tab -->
+                <section id="settings" class="tab-content">
+                    <div class="section-header">
+                        <h2>Configuración</h2>
+                        <p class="text-secondary">Programa el envío de tu newsletter</p>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Programación de Newsletter</h3>
+                                <form id="schedulingForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Frecuencia</label>
+                                        <select class="form-control" id="frequency">
+                                            <option value="daily">Diario</option>
+                                            <option value="weekly">Semanal</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Hora de envío</label>
+                                        <input type="time" class="form-control" id="sendTime" value="07:00">
+                                    </div>
+                                    <div class="form-group" id="weeklyDay" style="display: none;">
+                                        <label class="form-label">Día de la semana</label>
+                                        <select class="form-control" id="weekDay">
+                                            <option value="monday">Lunes</option>
+                                            <option value="tuesday">Martes</option>
+                                            <option value="wednesday">Miércoles</option>
+                                            <option value="thursday">Jueves</option>
+                                            <option value="friday">Viernes</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Zona horaria</label>
+                                        <select class="form-control" id="timezone">
+                                            <option value="Europe/Madrid">Europa/Madrid</option>
+                                            <option value="Europe/Barcelona">Europa/Barcelona</option>
+                                        </select>
+                                    </div>
+                                </form>
+                                <div class="form-actions">
+                                    <button class="btn btn--primary" id="saveScheduling">Guardar Configuración</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Estado del Sistema</h3>
+                                <div class="system-toggle">
+                                    <label class="toggle-label">
+                                        <input type="checkbox" id="systemActive" checked>
+                                        <span class="toggle-slider"></span>
+                                        Sistema Activo
+                                    </label>
+                                </div>
+                                <div class="next-newsletter">
+                                    <strong>Próximo envío:</strong>
+                                    <span id="nextSend">Mañana a las 07:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
