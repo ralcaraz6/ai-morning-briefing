@@ -25,7 +25,7 @@ let readNewsIds = new Set();
 let newsReadFilter = 'all'; // 'all', 'read', 'unread'
 
 // API Base URL
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'https://ai-morning-briefing-764206194240.europe-west1.run.app/api';
 
 // DOM Elements
 const elements = {
