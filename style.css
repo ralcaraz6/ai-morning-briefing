@@ -1,20 +1,20 @@
 
 :root {
   /* Colors */
-  --color-background: rgba(252, 252, 249, 1);
-  --color-surface: rgba(255, 255, 253, 1);
+  --color-background: #f9fafb;
+  --color-surface: #ffffff;
   --color-text: rgba(19, 52, 59, 1);
   --color-text-secondary: rgba(98, 108, 113, 1);
   --color-primary: rgba(33, 128, 141, 1);
   --color-primary-hover: rgba(29, 116, 128, 1);
   --color-primary-active: rgba(26, 104, 115, 1);
-  --color-secondary: rgba(94, 82, 64, 0.12);
-  --color-secondary-hover: rgba(94, 82, 64, 0.2);
-  --color-secondary-active: rgba(94, 82, 64, 0.25);
-  --color-border: rgba(94, 82, 64, 0.2);
-  --color-btn-primary-text: rgba(252, 252, 249, 1);
-  --color-card-border: rgba(94, 82, 64, 0.12);
-  --color-card-border-inner: rgba(94, 82, 64, 0.12);
+  --color-secondary: rgba(0, 0, 0, 0.04);
+  --color-secondary-hover: rgba(0, 0, 0, 0.08);
+  --color-secondary-active: rgba(0, 0, 0, 0.12);
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-btn-primary-text: #ffffff;
+  --color-card-border: rgba(0, 0, 0, 0.08);
+  --color-card-border-inner: rgba(0, 0, 0, 0.08);
   --color-error: rgba(192, 21, 47, 1);
   --color-success: rgba(33, 128, 141, 1);
   --color-warning: rgba(168, 75, 47, 1);
@@ -37,19 +37,18 @@
   --color-info-rgb: 98, 108, 113;
 
   /* Typography */
-  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
     Monaco, Consolas, monospace;
   --font-size-xs: 11px;
   --font-size-sm: 12px;
-  --font-size-base: 14px;
-  --font-size-md: 14px;
-  --font-size-lg: 16px;
-  --font-size-xl: 18px;
-  --font-size-2xl: 20px;
-  --font-size-3xl: 24px;
-  --font-size-4xl: 30px;
+  --font-size-base: 16px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-size-4xl: 32px;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 550;
@@ -74,18 +73,16 @@
 
   /* Border Radius */
   --radius-sm: 6px;
-  --radius-base: 8px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
+  --radius-base: 10px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
   --radius-full: 9999px;
 
   /* Shadows */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04),
-    0 2px 4px -1px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04),
-    0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 6px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 20px rgba(0, 0, 0, 0.08);
   --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15),
     inset 0 -1px 0 rgba(0, 0, 0, 0.03);
 
@@ -228,6 +225,11 @@ html {
 body {
   margin: 0;
   padding: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
 }
 
 *,
@@ -455,13 +457,14 @@ select.form-control {
   background-color: var(--color-surface);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-card-border);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
-  transition: box-shadow var(--duration-normal) var(--ease-standard);
+  transition: transform var(--duration-normal) var(--ease-standard), box-shadow var(--duration-normal) var(--ease-standard);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
 }
 
 .card__body {
@@ -661,8 +664,9 @@ select.form-control {
 }
 
 .app-header {
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border-bottom: none;
   padding: var(--space-16) 0;
   position: sticky;
   top: 0;
@@ -673,11 +677,11 @@ select.form-control {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   margin: 0;
+  color: var(--color-btn-primary-text);
 }
 
 .app-nav {
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-primary);
   padding: 0;
 }
 
@@ -691,23 +695,25 @@ select.form-control {
   padding: var(--space-12) var(--space-20);
   border: none;
   background: none;
-  color: var(--color-text-secondary);
+  color: var(--color-btn-primary-text);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
   border-bottom: 2px solid transparent;
-  transition: all var(--duration-fast) var(--ease-standard);
+  transition: background-color var(--duration-fast) var(--ease-standard);
   white-space: nowrap;
 }
 
+
 .nav-tab:hover {
-  color: var(--color-text);
-  background-color: var(--color-secondary);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav-tab.active {
+  background-color: var(--color-btn-primary-text);
   color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
-  background-color: var(--color-secondary);
+  border-radius: var(--radius-base) var(--radius-base) 0 0;
+  border: 1px solid transparent;
+  border-bottom-color: var(--color-btn-primary-text);
 }
 
 .app-main {
