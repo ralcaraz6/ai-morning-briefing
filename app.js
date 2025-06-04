@@ -48,6 +48,30 @@ const suggestedSources = [
     url: 'https://forbes.es/feed/',
     category: 'Economía',
     logo: 'https://logo.clearbit.com/forbes.es'
+  },
+  {
+    name: 'El Confidencial',
+    url: 'https://www.elconfidencial.com/rss/tecnologia/',
+    category: 'Tecnología',
+    logo: 'https://logo.clearbit.com/elconfidencial.com'
+  },
+  {
+    name: '20 Minutos',
+    url: 'https://www.20minutos.es/rss/',
+    category: 'General',
+    logo: 'https://logo.clearbit.com/20minutos.es'
+  },
+  {
+    name: 'El Economista',
+    url: 'https://www.eleconomista.es/rss/rss_economia.xml',
+    category: 'Economía',
+    logo: 'https://logo.clearbit.com/eleconomista.es'
+  },
+  {
+    name: 'ABC',
+    url: 'https://www.abc.es/rss/feeds/abc_Espana.xml',
+    category: 'General',
+    logo: 'https://logo.clearbit.com/abc.es'
   }
 ];
 

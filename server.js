@@ -40,28 +40,64 @@ const rssSources = [
         name: "El País",
         url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada",
         category: "General",
-        active: true
+        active: true,
+        logo: "https://logo.clearbit.com/elpais.com"
     },
     {
         id: 2,
         name: "El Mundo",
         url: "https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml",
         category: "General",
-        active: true
+        active: true,
+        logo: "https://logo.clearbit.com/elmundo.es"
     },
     {
         id: 3,
         name: "La Vanguardia",
         url: "https://www.lavanguardia.com/rss/home.xml",
         category: "General",
-        active: true
+        active: true,
+        logo: "https://logo.clearbit.com/lavanguardia.com"
     },
     {
         id: 4,
         name: "Expansión",
         url: "https://e00-expansion.uecdn.es/rss/portada.xml",
         category: "Economía",
-        active: true
+        active: true,
+        logo: "https://logo.clearbit.com/expansion.com"
+    },
+    {
+        id: 5,
+        name: "Cinco Días",
+        url: "https://cincodias.elpais.com/seccion/economia/?outputType=RSS",
+        category: "Economía",
+        active: true,
+        logo: "https://logo.clearbit.com/cincodias.elpais.com"
+    },
+    {
+        id: 6,
+        name: "Xataka",
+        url: "https://www.xataka.com/tag/rss.xml",
+        category: "Tecnología",
+        active: true,
+        logo: "https://logo.clearbit.com/xataka.com"
+    },
+    {
+        id: 7,
+        name: "TechCrunch",
+        url: "https://techcrunch.com/feed/",
+        category: "Tecnología",
+        active: true,
+        logo: "https://logo.clearbit.com/techcrunch.com"
+    },
+    {
+        id: 8,
+        name: "Forbes España",
+        url: "https://forbes.es/feed/",
+        category: "Economía",
+        active: true,
+        logo: "https://logo.clearbit.com/forbes.es"
     }
 ];
 
