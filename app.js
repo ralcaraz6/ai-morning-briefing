@@ -24,6 +24,33 @@ let appData = {
 let readNewsIds = new Set();
 let newsReadFilter = 'all'; // 'all', 'read', 'unread'
 
+const suggestedSources = [
+  {
+    name: 'Cinco Días',
+    url: 'https://cincodias.elpais.com/seccion/economia/?outputType=RSS',
+    category: 'Economía',
+    logo: 'https://logo.clearbit.com/cincodias.elpais.com'
+  },
+  {
+    name: 'Xataka',
+    url: 'https://www.xataka.com/tag/rss.xml',
+    category: 'Tecnología',
+    logo: 'https://logo.clearbit.com/xataka.com'
+  },
+  {
+    name: 'TechCrunch',
+    url: 'https://techcrunch.com/feed/',
+    category: 'Tecnología',
+    logo: 'https://logo.clearbit.com/techcrunch.com'
+  },
+  {
+    name: 'Forbes España',
+    url: 'https://forbes.es/feed/',
+    category: 'Economía',
+    logo: 'https://logo.clearbit.com/forbes.es'
+  }
+];
+
 // API Base URL
 const API_BASE_URL = 'https://ai-morning-briefing-764206194240.europe-west1.run.app/api';
 
@@ -50,6 +77,7 @@ const elements = {
   closeModal: document.getElementById('closeModal'),
   cancelAdd: document.getElementById('cancelAdd'),
   confirmAdd: document.getElementById('confirmAdd'),
+  suggestedSourcesList: document.getElementById('suggestedSourcesList'),
   
   // News elements
   newsList: document.getElementById('newsList'),
@@ -411,18 +439,22 @@ function addNotInterest() {
 // Sources Management
 function loadSources() {
   renderSources();
+  renderSuggestedSources();
 }
 
 function renderSources() {
-  elements.sourcesList.innerHTML = appData.rssSources.map(source => 
-    `<div class="source-card ${!source.active ? 'inactive' : ''}">
-      <div class="source-header">
-        <h4 class="source-name">${source.name}</h4>
-        <span class="source-category">${source.category}</span>
-      </div>
-      <div class="source-url">${source.url}</div>
+  elements.sourcesList.innerHTML = appData.rssSources.map(source =>
+      `<div class="source-card ${!source.active ? 'inactive' : ''}">
+        <div class="source-header">
+          <div class="source-info">
+            <img src="${source.logo || 'https://logo.clearbit.com/' + new URL(source.url).hostname}" class="source-logo" alt="" />
+            <h4 class="source-name">${source.name}</h4>
+          </div>
+          <span class="source-category">${source.category}</span>
+        </div>
+        <div class="source-url">${source.url}</div>
       <div class="source-actions">
-        <button class="btn btn--sm ${source.active ? 'btn--secondary' : 'btn--primary'}" 
+        <button class="btn btn--sm ${source.active ? 'btn--secondary' : 'btn--primary'}"
                 onclick="toggleSource(${source.id})">
           ${source.active ? 'Desactivar' : 'Activar'}
         </button>
@@ -432,6 +464,38 @@ function renderSources() {
       </div>
     </div>`
   ).join('');
+}
+
+function renderSuggestedSources() {
+  elements.suggestedSourcesList.innerHTML = suggestedSources.map(src => {
+    const already = appData.rssSources.some(s => s.url === src.url);
+    const button = already
+      ? '<span class="status status--success">Conectado</span>'
+      : `<button class="btn btn--sm btn--primary connect-source-btn" data-url="${src.url}">Conectar</button>`;
+    return `
+      <div class="source-card">
+        <div class="source-header">
+          <div class="source-info">
+            <img src="${src.logo}" class="source-logo" alt="" />
+            <h4 class="source-name">${src.name}</h4>
+          </div>
+          <span class="source-category">${src.category}</span>
+        </div>
+        <div class="source-url">${src.url}</div>
+        <div class="source-actions">${button}</div>
+      </div>`;
+  }).join('');
+
+  document.querySelectorAll('.connect-source-btn').forEach(btn => {
+    btn.addEventListener('click', async function() {
+      const url = this.getAttribute('data-url');
+      const src = suggestedSources.find(s => s.url === url);
+      if (src) {
+        await addNewSourceAPI(src);
+        renderSuggestedSources();
+      }
+    });
+  });
 }
 
 function openAddSourceModal() {
@@ -457,6 +521,7 @@ async function submitNewSource() {
 
     await addNewSourceAPI(newSource);
     loadDashboard();
+    renderSuggestedSources();
     closeAddSourceModal();
   }
 }
@@ -508,8 +573,8 @@ function renderNews(newsArray) {
     // Impacto personalizado breve
     let impactShort = news.impact;
     let showMoreBtn = '';
-    if (impactShort && impactShort.length > 160) {
-      impactShort = impactShort.slice(0, 160) + '...';
+    if (impactShort && impactShort.length > 100) {
+      impactShort = impactShort.slice(0, 100) + '...';
       showMoreBtn = `<button class="btn btn--xs btn--link show-impact-btn" data-url="${news.url}">Ver más</button>`;
     }
     return `
@@ -531,6 +596,7 @@ function renderNews(newsArray) {
         <div class="news-impact">
           <strong>Impacto Personalizado:</strong> <span class="impact-short" data-url="${news.url}">${impactShort}</span> ${showMoreBtn}
         </div>
+        ${news.action && news.action !== 'Ninguna' ? `<div class="news-action"><strong>Acción:</strong> ${news.action}</div>` : ''}
         <button class="btn mark-read-btn ${isRead ? 'btn--success' : 'btn--outline'}" data-url="${news.url}">
           <span class="btn-icon">${isRead ? '✅' : '☐'}</span> ${isRead ? 'Leída' : 'Marcar como leída'}
         </button>
