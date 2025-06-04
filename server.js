@@ -25,6 +25,10 @@ let userProfile = {
     location: "Barcelona",
     job: "Analista de datos",
     company: "Empresa tecnológica alemana",
+    language: "Español",
+    experience: 5,
+    industry: "Tecnología",
+    education: "Máster en IA",
     interests: ["nuevas leyes", "productos digitales", "software", "inteligencia artificial", "conflictos geopolíticos", "inversiones personales"],
     notInterested: ["deportes", "farándula", "casamientos", "rondas de inversión", "adquisiciones empresariales", "acuerdos internacionales sin efecto en España"]
 };
@@ -108,6 +112,8 @@ function generateNewsletterHTML(news) {
     const recap = `
       <div style="margin-bottom:18px;">
         <strong>Profile:</strong> ${userProfile.job}, ${userProfile.age} years old, ${userProfile.location}, ${userProfile.company}<br>
+        <strong>Language:</strong> ${userProfile.language} &nbsp;|&nbsp; <strong>Experience:</strong> ${userProfile.experience} años<br>
+        <strong>Industry:</strong> ${userProfile.industry} &nbsp;|&nbsp; <strong>Education:</strong> ${userProfile.education}<br>
         <strong>Interests:</strong> ${userProfile.interests.join(', ')}<br>
         <strong>Not interested in:</strong> ${userProfile.notInterested.join(', ')}<br>
         <strong>Filters:</strong> Relevance ≥ 60%
@@ -157,6 +163,10 @@ Eres un asistente experto en personalización de noticias. Analiza la siguiente 
 Edad: ${userProfile.age}
 Ubicación: ${userProfile.location}
 Trabajo: ${userProfile.job}
+Idioma: ${userProfile.language}
+Años de experiencia: ${userProfile.experience}
+Industria: ${userProfile.industry}
+Formación: ${userProfile.education}
 Intereses: ${userProfile.interests.join(', ')}
 No le interesa: ${userProfile.notInterested.join(', ')}
 Título: ${news.title}
