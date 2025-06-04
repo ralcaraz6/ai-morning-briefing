@@ -124,7 +124,7 @@ async function fetchSources() {
   }
 }
 
-async function addNewSource(sourceData) {
+async function addNewSourceAPI(sourceData) {
   try {
     const response = await fetch(`${API_BASE_URL}/sources`, {
       method: 'POST',
@@ -319,7 +319,7 @@ function setupEventListeners() {
   elements.addSourceBtn.addEventListener('click', openAddSourceModal);
   elements.closeModal.addEventListener('click', closeAddSourceModal);
   elements.cancelAdd.addEventListener('click', closeAddSourceModal);
-  elements.confirmAdd.addEventListener('click', addNewSource);
+  elements.confirmAdd.addEventListener('click', submitNewSource);
   
   // News
   elements.categoryFilter.addEventListener('change', filterNews);
@@ -431,26 +431,21 @@ function closeAddSourceModal() {
   elements.addSourceForm.reset();
 }
 
-function addNewSource() {
+async function submitNewSource() {
   const name = document.getElementById('sourceName').value;
   const url = document.getElementById('sourceUrl').value;
   const category = document.getElementById('sourceCategory').value;
-  
+
   if (name && url) {
     const newSource = {
-      id: Math.max(...appData.rssSources.map(s => s.id)) + 1,
       name,
       url,
-      category,
-      active: true
+      category
     };
-    
-    appData.rssSources.push(newSource);
-    updateStats();
-    renderSources();
+
+    await addNewSourceAPI(newSource);
     loadDashboard();
     closeAddSourceModal();
-    showNotification('Fuente RSS añadida correctamente', 'success');
   }
 }
 
