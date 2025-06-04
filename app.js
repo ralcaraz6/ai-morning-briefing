@@ -96,6 +96,14 @@ async function fetchProfile() {
 }
 
 async function saveProfile() {
+  appData.profile.age = parseInt(document.getElementById('age').value, 10) || 0;
+  appData.profile.location = document.getElementById('location').value;
+  appData.profile.job = document.getElementById('job').value;
+  appData.profile.company = document.getElementById('company').value;
+  appData.profile.language = document.getElementById('language').value;
+  appData.profile.experience = parseInt(document.getElementById('experience').value, 10) || 0;
+  appData.profile.industry = document.getElementById('industry').value;
+  appData.profile.education = document.getElementById('education').value;
   try {
     const response = await fetch(`${API_BASE_URL}/profile`, {
       method: 'POST',
@@ -356,7 +364,11 @@ function loadProfile() {
   document.getElementById('location').value = appData.profile.location;
   document.getElementById('job').value = appData.profile.job;
   document.getElementById('company').value = appData.profile.company;
-  
+  document.getElementById('language').value = appData.profile.language;
+  document.getElementById('experience').value = appData.profile.experience;
+  document.getElementById('industry').value = appData.profile.industry;
+  document.getElementById('education').value = appData.profile.education;
+
   renderInterests();
 }
 
@@ -619,9 +631,9 @@ function generateNewsletterContent() {
     
     <div class="newsletter-section">
       <h3>🤖 Resumen de IA</h3>
-      <p>Este briefing ha sido personalizado para <strong>${appData.profile.job}</strong> de <strong>${appData.profile.age} años</strong> 
-      en <strong>${appData.profile.location}</strong>. Se han filtrado <strong>${appData.sampleNews.length}</strong> noticias, 
-      seleccionando <strong>${relevantNews.length}</strong> con alta relevancia para tus intereses en 
+      <p>Este briefing ha sido personalizado para <strong>${appData.profile.job}</strong> de <strong>${appData.profile.age} años</strong>
+      en <strong>${appData.profile.location}</strong> (<strong>${appData.profile.language}</strong>), con <strong>${appData.profile.experience}</strong> años de experiencia en <strong>${appData.profile.industry}</strong> y formación en <strong>${appData.profile.education}</strong>. Se han filtrado <strong>${appData.sampleNews.length}</strong> noticias,
+      seleccionando <strong>${relevantNews.length}</strong> con alta relevancia para tus intereses en
       <strong>${appData.profile.interests.slice(0, 3).join(', ')}</strong> y más.</p>
     </div>
   `;
