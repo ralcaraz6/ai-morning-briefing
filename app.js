@@ -319,7 +319,7 @@ function setupEventListeners() {
   elements.addSourceBtn.addEventListener('click', openAddSourceModal);
   elements.closeModal.addEventListener('click', closeAddSourceModal);
   elements.cancelAdd.addEventListener('click', closeAddSourceModal);
-  elements.confirmAdd.addEventListener('click', addNewSource);
+  elements.confirmAdd.addEventListener('click', handleAddSource);
   
   // News
   elements.categoryFilter.addEventListener('change', filterNews);
@@ -431,26 +431,20 @@ function closeAddSourceModal() {
   elements.addSourceForm.reset();
 }
 
-function addNewSource() {
+async function handleAddSource() {
   const name = document.getElementById('sourceName').value;
   const url = document.getElementById('sourceUrl').value;
   const category = document.getElementById('sourceCategory').value;
-  
+
   if (name && url) {
-    const newSource = {
-      id: Math.max(...appData.rssSources.map(s => s.id)) + 1,
-      name,
-      url,
-      category,
-      active: true
-    };
-    
-    appData.rssSources.push(newSource);
-    updateStats();
-    renderSources();
-    loadDashboard();
-    closeAddSourceModal();
-    showNotification('Fuente RSS añadida correctamente', 'success');
+    const sourceData = { name, url, category };
+    try {
+      await addNewSource(sourceData);
+      loadDashboard();
+      closeAddSourceModal();
+    } catch (error) {
+      showNotification('Error al añadir la fuente', 'error');
+    }
   }
 }
 
@@ -538,9 +532,8 @@ function renderNews(newsArray) {
       readNewsIds.add(url);
       this.classList.remove('btn--outline');
       this.classList.add('btn--success');
-      this.querySelector('.btn-icon').textContent = '✅';
-      this.textContent = ' Leída';
-      this.prepend(this.querySelector('.btn-icon'));
+      // Update icon and keep it visible
+      this.innerHTML = '<span class="btn-icon">✅</span> Leída';
     });
   });
   // Listener para mostrar el impacto completo
