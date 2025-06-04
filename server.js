@@ -129,7 +129,8 @@ function generateNewsletterHTML(news) {
             <a href="${n.url}" target="_blank" style="font-size:1.1em;font-weight:bold;">${n.title}</a><br>
             <span style="color:#888;">${n.source} | ${n.category || ''} | ${new Date(n.publishedAt).toLocaleString('es-ES', {hour:'2-digit',minute:'2-digit'})}</span><br>
             <span>${n.summary}</span><br>
-            <span style="color:#0a7c4a;">${n.impact}</span>
+            <span style="color:#0a7c4a;">${n.impact}</span><br>
+            ${n.action && n.action !== 'Ninguna' ? `<em>Acción: ${n.action}</em>` : ''}
           </li>
         `).join('')}
       </ul>
@@ -173,7 +174,7 @@ Título: ${news.title}
 Resumen: ${news.summary}
 
 Devuelve SOLO un JSON con:
-relevanceScore (0-100), impact (breve explicación), category (Tecnología, Economía, Laboral, Tecnología Local, General)
+relevanceScore (0-100), impact (máx 15 palabras), action (breve recomendación o "Ninguna"), category (Tecnología, Economía, Laboral, Tecnología Local, General)
 `;
         const response = await axios.post(PERPLEXITY_API_URL, {
             model: "sonar-pro",
@@ -192,6 +193,7 @@ relevanceScore (0-100), impact (breve explicación), category (Tecnología, Econ
             return {
                 relevanceScore: 0,
                 impact: `Error parsing Perplexity response: ${response.data.choices[0].message.content}`,
+                action: "Ninguna",
                 category: news.category || "General"
             };
         }
@@ -202,6 +204,7 @@ relevanceScore (0-100), impact (breve explicación), category (Tecnología, Econ
         return {
             relevanceScore: 0,
             impact: `Error Perplexity: ${errorMsg}`,
+            action: "Ninguna",
             category: news.category || "General"
         };
     }
@@ -237,6 +240,7 @@ async function fetchAndProcessNews() {
                 ...news,
                 relevanceScore: analysis.relevanceScore,
                 impact: analysis.impact,
+                action: analysis.action,
                 category: analysis.category
             };
         })
